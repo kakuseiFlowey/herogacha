@@ -1,14 +1,96 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Progate</title>
+	<head>
+		<title>ヒーローガチャシミュレータ</title>
+	</head>
+	<body>
+		<script>
+			/*
+			実装済み：ダンまちとオリジナルだけ．他コラボは復刻次第調整する予定
+			*/
+			var korabo_name = ["オリジナル", "ギルティギア", "ボカロ", "ストV", "リゼロ", "殺戮の天使", "ダンガンロンパ", "このすば", "進撃の巨人", "猫宮ひなた", "Steins;Gate", "Fate", "超歌舞伎x千本桜", "ダンまち"];
+			var koraboWhat = 13;//何のコラボか.13はダンまち
+			var heroName = [
+				["十文字 アタリ", "ジャスティス ハンコック", "リリカ", "双挽 乃保", "桜華 忠臣", "ジャンヌ ダルク", "マルコス'55", "ルチアーノ", "Voidoll", "深川 まとい", "グスタフ ハイドリヒ", "二コラ テスラ", "ヴィオレッタ ノワール", "コクリコット ブランシュ", "マリア=S=レオンブルク", "アダム=ユーリエフ", "13 ♰サーティーン♰", "かけだし勇者", "メグメグ", "イスタカ", "輝龍院 きらら", "ヴィーナス ポロロッチョ", "ソーン=ユーリエフ", "デビルミント鬼龍 デルミン", "トマス", "零夜", "ルルカ", "ピエール 77世"],
+				["ソル=バッドガイ", "ディズィー", "初音 ミク", "リュウ", "春麗", "エミリア", "レム", "カイ=キスク", "鏡音 リン", "鏡音 レン", "ザック＆レイチェル", "モノクマ", "アクア", "めぐみん", "リヴァイ", "猫宮 ひなた", "岡部 倫太郎", "セイバーオルタ", "ギルガメッシュ", "佐藤四郎兵衛忠信", "アイズ"]
+			];
+			/*ヒーロー番号対応表
+			0-4:アタリ，ジャス，リリカ，のほ，忠臣
+			5-9:ジャンヌ，マルコス，ルチ，ボイド，まとい 
+			10-14:グス，テスラ，ヴィオ，コクリコ，マリア
+			15-19:アダム，13，勇者，メグメグ，イスタカ
+			20-24:きらら，ポロ，ソーン，デルミン，トマス
+			25-27:零夜，ルルカ，ピエール
+			orgHeroNum + の番号
+			0-4:ソル，デズ，ミク，リュウ，春麗
+			5-9:リア，レム，カイ，リン，レン
+			10-14:ザクレイ，モノクマ，アクア，めぐみん，リヴァイ
+			15-19:猫宮，オカリン，セイバー，ギル，忠信
+			20-:アイズ
+			*/
+			var orgHeroNum = heroName[0].length;//オリジナルヒーローの数
+			var koraboHeroNum = heroName[1].length;//コラボヒーローの数
 
-</head>
-<body>
+			for(i = 0;i < koraboHeroNum;i++){
+				heroName[0].push(heroName[1][i]);
+			}//コラボヒーロー名前配列の結合
 
-  document.write("hello, wolrd.");
+			var koraboHero = [ //コラボヒーローガチャで当たるヒーロー番号（オリジナルヒーローのコスチューム含め）
+				[],//0:オリジナルヒーロー全て
+				[orgHeroNum + 0,orgHeroNum + 1,orgHeroNum + 7],//1:GG
+				[orgHeroNum + 2,orgHeroNum + 8,orgHeroNum + 9],//2:ボカロ
+				[orgHeroNum + 3,orgHeroNum + 4],//3:SF
+				[orgHeroNum + 5,orgHeroNum + 6],//4:リゼロ
+				[orgHeroNum + 10],//5:殺戮の天使
+				[orgHeroNum + 11],//6:ダンロン
+				[orgHeroNum + 12,orgHeroNum + 13],//7:このすば
+				[orgHeroNum + 14],//8:進撃
+				[orgHeroNum + 15],//9:猫宮
+				[orgHeroNum + 16],//10:シュタゲ
+				[orgHeroNum + 17,orgHeroNum + 18],//11:Fate
+				[orgHeroNum + 19],//12:歌舞伎
+				[orgHeroNum + 20,5,9,12,15,26],//13:ダンまち
+			];
 
-</body>
+			var koraboRate = [ //↑に対する当選確率.もっとスマートにしたいけど例外多いからこれでいいや
+				[],//オリジナル
+				[0.33,0.33,0.34],//GG
+				[0.33,0.33,0.34],//ボカロ
+				[0.5,0.5],//SF
+				[0.5,0.5],//リゼロ
+				[1],//殺戮の天使
+				[1],//ダンロン
+				[0.5,0.5],//このすば
+				[1],//進撃
+				[1],//猫宮
+				[1],//シュタゲ
+				[0.5,0.5],//Fate
+				[1],//歌舞伎
+				[0.5, 0.1, 0.1, 0.1, 0.1, 0.1],//ダンまち
+			];
+			for(i = 0;i < orgHeroNum;i++){
+				koraboHero[0].push(i);
+				koraboRate[0].push(1.0 / orgHeroNum);
+			}//オリジナルヒーローをプッシュ（直に書き直さなくてすむように）
+
+			//ここからガチャ処理
+			var nanren = 5;
+			document.write(korabo_name[koraboWhat] + "ヒーローガチャシミュレータ<br>\n");
+			document.write("【" + nanren + "連の結果！！】↓↓<br>\n");
+			do{
+				var looplen = koraboHero[koraboWhat].length;
+				var tmpRate = 0;
+				var rVal = Math.random();
+				for(i = 0;i < looplen;i++){
+					tmpRate += koraboRate[koraboWhat][i];
+					if(rVal <= tmpRate){
+						document.write("「" + heroName[0][koraboHero[koraboWhat][i]] + "」が当たりました！<br>\n");
+						break;
+					}
+				}
+			}while(--nanren > 0);
+
+
+		</script>
+	</body>
 </html>
