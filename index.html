@@ -2,9 +2,54 @@
 <html>
 	<head>
 		<title>ヒーローガチャシミュレータ</title>
+		<link rel="stylesheet" href="../compass_gacha.css">
 	</head>
 	<body>
+		<h3>これはペルソナ５コラボヒーローガチャだ</h3>
+		<p class="button_wrapper">
+			<button class="btn">ガチャを回す</button>
+		</p>
+		<h3>--ガチャ結果↓--</h3>
+		<ul id="results">
+			<!-- ここに子要素を追加して結果表示 -->
+		</ul>
 		<script>
+			// DOM
+			var dom1 = document.querySelector("button");
+			// イベント
+			dom1.addEventListener("click", func_set);
+
+			function func_set(){
+				let parent2 = document.getElementById("results");
+				while(parent2.firstChild){//既に書き出した子要素を全部削除
+					parent2.removeChild(parent2.firstChild);
+				}
+
+				var nanren = 1;
+				// document.write(korabo_name[koraboWhat] + "ヒーローガチャシミュレータ<br>\n");
+				// if(is_pickup == 1){
+				// 	document.write("「" + heroName[0][pickup_hero_num] + "」出現率" + pickup_rate + "倍！<br>\n");
+				// }
+				// document.write("【" + nanren + "連の結果！！】↓↓<br>\n");
+				do{
+					let looplen = koraboHero[koraboWhat].length;
+					let tmpRate = 0;
+					var rVal = Math.random();
+					for(i = 0;i < looplen;i++){
+						tmpRate += koraboRate[koraboWhat][i];
+						if(rVal <= tmpRate){
+							new_element = document.createElement('li');
+							new_element.textContent = heroName[0][koraboHero[koraboWhat][i]];
+							if(is_pickup == 1 && heroName[0][koraboHero[koraboWhat][i]] == heroName[0][pickup_hero_num]){
+								new_element.textContent += "【ピックアップ対象】";
+							}
+							parent2.appendChild(new_element);
+							break;
+						}
+					}
+				}while(--nanren > 0);
+
+			}
 			/*
 			実装済み：オリジナルとダンまち,文ストだけ．他コラボはいつか調整するかも
 			*/
@@ -96,31 +141,6 @@
 				koraboHero[0].push(i);
 				koraboRate[0].push(1.0 / orgHeroNum);
 			}//オリジナルヒーローをプッシュ（直に書き直さなくてすむように）
-
-			//ここからガチャ処理
-			var nanren = 1;
-			document.write(korabo_name[koraboWhat] + "ヒーローガチャシミュレータ<br>\n");
-			if(is_pickup == 1){
-				document.write("「" + heroName[0][pickup_hero_num] + "」出現率" + pickup_rate + "倍！<br>\n");
-			}
-			document.write("【" + nanren + "連の結果！！】↓↓（更新ボタンでもう一度）<br>\n");
-			do{
-				let looplen = koraboHero[koraboWhat].length;
-				let tmpRate = 0;
-				var rVal = Math.random();
-				for(i = 0;i < looplen;i++){
-					tmpRate += koraboRate[koraboWhat][i];
-					if(rVal <= tmpRate){
-						document.write("「" + heroName[0][koraboHero[koraboWhat][i]] + "」が当たりました！");
-						if(is_pickup == 1 && heroName[0][koraboHero[koraboWhat][i]] == heroName[0][pickup_hero_num]){
-							document.write("【ピックアップ対象】");
-						}
-						document.write("<br>\n");
-						break;
-					}
-				}
-			}while(--nanren > 0);
-
 
 		</script>
 	</body>
