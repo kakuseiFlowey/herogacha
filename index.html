@@ -5,7 +5,30 @@
 		<link rel="stylesheet" href="../compass_gacha.css">
 	</head>
 	<body>
-		<h3>これはペルソナ５コラボヒーローガチャだ</h3>
+		<form name="form1" class="form_area">
+			<table>
+				<tbody>
+					<tr>
+						<th>コラボ</th>
+						<td>
+							<select name="koraboChoice">
+								<option value="0">オリジナル</option>
+								<option value="17" selected>ペルソナ５</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>チケット枚数</th>
+						<td>
+							<div class="spinner_area">
+								<input type="number" id="nanren" value="1">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+
 		<p class="button_wrapper">
 			<button class="btn">ガチャを回す</button>
 		</p>
@@ -20,17 +43,17 @@
 			dom1.addEventListener("click", func_set);
 
 			function func_set(){
+				koraboWhat = document.form1.koraboChoice.value;
 				let parent2 = document.getElementById("results");
 				while(parent2.firstChild){//既に書き出した子要素を全部削除
 					parent2.removeChild(parent2.firstChild);
 				}
 
-				var nanren = 1;
+				nanren = document.getElementById("nanren").value;
 				// document.write(korabo_name[koraboWhat] + "ヒーローガチャシミュレータ<br>\n");
 				// if(is_pickup == 1){
 				// 	document.write("「" + heroName[0][pickup_hero_num] + "」出現率" + pickup_rate + "倍！<br>\n");
 				// }
-				// document.write("【" + nanren + "連の結果！！】↓↓<br>\n");
 				do{
 					let looplen = koraboHero[koraboWhat].length;
 					let tmpRate = 0;
@@ -50,11 +73,9 @@
 				}while(--nanren > 0);
 
 			}
-			/*
-			実装済み：オリジナルとダンまち,文ストだけ．他コラボはいつか調整するかも
-			*/
+			//↓変数たち
 			var korabo_name = ["オリジナル", "ギルティギア", "ボカロ", "ストV", "リゼロ", "殺戮の天使", "ダンガンロンパ", "このすば", "進撃の巨人", "猫宮ひなた", "Steins;Gate", "Fate", "超歌舞伎x千本桜", "ダンまち", "FF", "文スト", "ライザ２", "ペルソナ５"];
-			var koraboWhat = 17;//何のコラボか.15は文スト
+			var koraboWhat;//何のコラボか.15は文スト
 			var heroName = [
 				["十文字 アタリ", "ジャスティス ハンコック", "リリカ", "双挽 乃保", "桜華 忠臣", "ジャンヌ ダルク", "マルコス'55", "ルチアーノ", "Voidoll", "深川 まとい", "グスタフ ハイドリヒ", "二コラ テスラ", "ヴィオレッタ ノワール", "コクリコット ブランシュ", "マリア=S=レオンブルク", "アダム=ユーリエフ", "13 †サーティーン†", "かけだし勇者", "メグメグ", "イスタカ", "輝龍院 きらら", "ヴィーナス ポロロッチョ", "ソーン=ユーリエフ", "デビルミント鬼龍 デルミン", "トマス", "零夜", "ルルカ", "ピエール 77世", "狐ヶ咲甘色", "ニーズヘッグ", "ゲームバズーカガール", "青春 アリス"],
 				["ソル=バッドガイ", "ディズィー", "初音 ミク", "リュウ", "春麗", "エミリア", "レム", "カイ=キスク", "鏡音 リン", "鏡音 レン", "ザック＆レイチェル", "モノクマ", "アクア", "めぐみん", "リヴァイ", "猫宮 ひなた", "岡部 倫太郎", "セイバーオルタ", "ギルガメッシュ", "佐藤四郎兵衛忠信", "アイズ", "ノクティス", "中島 敦", "芥川 龍之介", "ライザリン・シュタウト", "ジョーカー"]
@@ -63,6 +84,7 @@
 				[0,1,2,3, 3,1,3,2, 0,2,1,0, 1,0,3,3, 2,0,2,2, 0,3,2,3, 1,0,3,0, 3,2,2,1],
 				[3,2,0,3, 0,2,3,3, 2,1,0,1, 0,1,3,2, 2,3,2,1, 3,0,2,1, 0]
 			];
+			var nanren;//何連回すか
 			//実装記念ピックアップ対応用↓
 			var is_pickup = 0;//0=なし，1=あり．(ロール別限定はまた来たら実装するか．2,3,4,5で)
 			var pickup_hero_num = 28;//ピックアップヒーロー番号
@@ -89,8 +111,8 @@
 			20-24:アイズ, ノクト, 中島, 芥川, ライザ
 			25-29:ジョーカー,
 			*/
-			var orgHeroNum = heroName[0].length;//オリジナルヒーローの数
-			var koraboHeroNum = heroName[1].length;//コラボヒーローの数
+			const orgHeroNum = heroName[0].length;//オリジナルヒーローの数
+			const koraboHeroNum = heroName[1].length;//コラボヒーローの数
 
 			for(i = 0;i < koraboHeroNum;i++){
 				heroName[0].push(heroName[1][i]);
