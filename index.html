@@ -9,11 +9,15 @@
 			<table>
 				<tbody>
 					<tr>
-						<th>コラボ</th>
+						<th>何のガチャか</th>
 						<td>
 							<select name="koraboChoice">
 								<option value="0">オリジナル</option>
-								<option value="17" selected>ペルソナ５</option>
+								<option value="21" selected>2021水着</option>
+								<option value="20">2020水着</option>
+								<option value="19">2019水着</option>
+								<option value="18">2017&2018水着</option>
+								<option value="17">ペルソナ５</option>
 							</select>
 						</td>
 					</tr>
@@ -50,20 +54,20 @@
 				}
 
 				nanren = document.getElementById("nanren").value;
-				// document.write(korabo_name[koraboWhat] + "ヒーローガチャシミュレータ<br>\n");
+				// document.write(gacha_name[koraboWhat] + "ヒーローガチャシミュレータ<br>\n");
 				// if(is_pickup == 1){
 				// 	document.write("「" + heroName[0][pickup_hero_num] + "」出現率" + pickup_rate + "倍！<br>\n");
 				// }
 				do{
-					let looplen = koraboHero[koraboWhat].length;
+					let looplen = hitHero[koraboWhat].length;
 					let tmpRate = 0;
 					var rVal = Math.random();
 					for(i = 0;i < looplen;i++){
 						tmpRate += koraboRate[koraboWhat][i];
 						if(rVal <= tmpRate){
 							new_element = document.createElement('li');
-							new_element.textContent = heroName[0][koraboHero[koraboWhat][i]];
-							if(is_pickup == 1 && heroName[0][koraboHero[koraboWhat][i]] == heroName[0][pickup_hero_num]){
+							new_element.textContent = heroName[0][hitHero[koraboWhat][i]];
+							if(is_pickup == 1 && heroName[0][hitHero[koraboWhat][i]] == heroName[0][pickup_hero_num]){
 								new_element.textContent += "【ピックアップ対象】";
 							}
 							parent2.appendChild(new_element);
@@ -75,6 +79,8 @@
 			}
 			//↓変数たち
 			var korabo_name = ["オリジナル", "ギルティギア", "ボカロ", "ストV", "リゼロ", "殺戮の天使", "ダンガンロンパ", "このすば", "進撃の巨人", "猫宮ひなた", "Steins;Gate", "Fate", "超歌舞伎x千本桜", "ダンまち", "FF", "文スト", "ライザ２", "ペルソナ５"];
+			var event_name = ["2017&2018水着", "2019水着", "2020水着", "2021水着"];
+			var gacha_name = korabo_name.concat(event_name);
 			var koraboWhat;//何のコラボか.15は文スト
 			var heroName = [
 				["十文字 アタリ", "ジャスティス ハンコック", "リリカ", "双挽 乃保", "桜華 忠臣", "ジャンヌ ダルク", "マルコス'55", "ルチアーノ", "Voidoll", "深川 まとい", "グスタフ ハイドリヒ", "二コラ テスラ", "ヴィオレッタ ノワール", "コクリコット ブランシュ", "マリア=S=レオンブルク", "アダム=ユーリエフ", "13 †サーティーン†", "かけだし勇者", "メグメグ", "イスタカ", "輝龍院 きらら", "ヴィーナス ポロロッチョ", "ソーン=ユーリエフ", "デビルミント鬼龍 デルミン", "トマス", "零夜", "ルルカ", "ピエール 77世", "狐ヶ咲甘色", "ニーズヘッグ", "ゲームバズーカガール", "青春 アリス"],
@@ -118,7 +124,7 @@
 				heroName[0].push(heroName[1][i]);
 			}//コラボヒーロー名前配列の結合
 
-			var koraboHero = [ //コラボヒーローガチャで当たるヒーロー番号（オリジナルヒーローのコスチューム含め）
+			var hitHero = [ //コラボヒーローガチャで当たるヒーロー番号（オリジナルヒーローのコスチューム含め）
 				[],//0:オリジナルヒーロー全て
 				[orgHeroNum + 0,orgHeroNum + 1,orgHeroNum + 7],//1:GG
 				[orgHeroNum + 2,orgHeroNum + 8,orgHeroNum + 9],//2:ボカロ
@@ -137,6 +143,11 @@
 				[orgHeroNum + 22,orgHeroNum + 23,15,22,24,25,28],//15:文スト
 				[orgHeroNum + 24],//ライザ２
 				[orgHeroNum + 25, 0, 8, 14, 16, 30],//ペルソナ５
+
+				[2, 3, 5, 8, 9, 12, 13, 14, 18],//2017&2018水着
+				[0, 1, 4, 6, 7, 10, 11, 20, 23],//2019水着
+				[15, 19, 21, 22, 26],//2020水着
+				[16, 17, 27, 28, 30],//2021水着 21
 			];
 
 			var koraboRate = [ //↑に対する当選確率.もっとスマートにしたいけど例外多いからこれでいいや
@@ -158,9 +169,15 @@
 				[0.25, 0.25, 0.1, 0.1, 0.1, 0.1, 0.1],//文スト
 				[1],//ライザ２
 				[0.5, 0.1, 0.1, 0.1, 0.1, 0.1],//ペルソナ５
+
+				[0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.12],//2017&2018水着
+				[0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.12],//2019水着
+				[0.2, 0.2, 0.2, 0.2, 0.2],//2020水着
+				[0.2, 0.2, 0.2, 0.2, 0.2],//2021水着
+
 			];
 			for(i = 0;i < orgHeroNum;i++){
-				koraboHero[0].push(i);
+				hitHero[0].push(i);
 				koraboRate[0].push(1.0 / orgHeroNum);
 			}//オリジナルヒーローをプッシュ（直に書き直さなくてすむように）
 
