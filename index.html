@@ -55,17 +55,24 @@
 			function func_set(){
 				koraboWhat = document.form1.koraboChoice.value;
 
+				//該当ヒーロー一覧書き出し
 				let parent = document.getElementById("info");
 				while(parent.firstChild){//既に書き出した子要素を全部削除
 					parent.removeChild(parent.firstChild);
 				}
+
+				new_element = document.createElement('p');
+				new_element.textContent = gacha_name[koraboWhat] + "ガチャでは次のヒーローが当選します";
+				parent.appendChild(new_element);//ガチャ種類
+
 				let looplen = hitHero[koraboWhat].length;
 				for(i = 0;i < looplen;i++){
 					new_element = document.createElement('li');
-					new_element.textContent = heroName[0][hitHero[koraboWhat][i]];
+					new_element.textContent = heroName[0][hitHero[koraboWhat][i]] + " :" + (100 * koraboRate[koraboWhat][i]) + "%";
 					parent.appendChild(new_element);
 				}
 
+				//当選ヒーロー書き出し
 				let parent2 = document.getElementById("results");
 				while(parent2.firstChild){//既に書き出した子要素を全部削除
 					parent2.removeChild(parent2.firstChild);
