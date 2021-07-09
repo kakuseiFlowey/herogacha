@@ -36,6 +36,12 @@
 		<p class="button_wrapper">
 			<button class="btn">ガチャを回す</button>
 		</p>
+		<details>
+			<summary>該当ヒーロー一覧</summary>
+			<ul id="info">
+				<!-- ここにガチャ詳細情報を表示 -->
+			</ul>
+		</details>
 		<h3>--ガチャ結果↓--</h3>
 		<ul id="results">
 			<!-- ここに子要素を追加して結果表示 -->
@@ -48,6 +54,18 @@
 
 			function func_set(){
 				koraboWhat = document.form1.koraboChoice.value;
+
+				let parent = document.getElementById("info");
+				while(parent.firstChild){//既に書き出した子要素を全部削除
+					parent.removeChild(parent.firstChild);
+				}
+				let looplen = hitHero[koraboWhat].length;
+				for(i = 0;i < looplen;i++){
+					new_element = document.createElement('li');
+					new_element.textContent = heroName[0][hitHero[koraboWhat][i]];
+					parent.appendChild(new_element);
+				}
+
 				let parent2 = document.getElementById("results");
 				while(parent2.firstChild){//既に書き出した子要素を全部削除
 					parent2.removeChild(parent2.firstChild);
